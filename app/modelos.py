@@ -19,4 +19,24 @@ class Entrada:
         else: 
             self.tipo = TipoEntrada.JUBILADO
             self.precio = 18
-        
+
+
+class Grupo_entrada:
+    def __init__(self):
+        self.total = 0
+        self.num_entradas = 0
+    
+    def add_entrada(self,edad):
+        """
+        En función de una edad crear una entrada e incrementar el contador de entrada
+        Con el precio de la entrada nueva incrementar el total
+        """
+        #  En función de una edad crear una entrada
+        entrada = Entrada(edad)
+
+        #incrementar el contador de entrada
+
+        self.num_entradas += 1
+        self.total += entrada.precio
+
+       
