@@ -18,8 +18,13 @@ def test_crear_entrada():
     assert entrada.tipo == TipoEntrada.BEBE
     assert entrada.precio == 0
 
-def xtest_crear_entrada_edad_negativa_error():
-    pass
+def test_crear_entrada_edad_negativa_error():
+    try:
+        entrada = Entrada(-2)
+        assert False, "no ha saltado el ValueError"
+    except ValueError:
+        assert True
+
 
 def test_crear_grupo_entradas():
     grupo = Grupo_entrada()
