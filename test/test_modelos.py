@@ -1,4 +1,5 @@
 from app.modelos import Entrada, TipoEntrada, Grupo_entrada
+import pytest
 
 def test_crear_entrada():
 
@@ -19,11 +20,17 @@ def test_crear_entrada():
     assert entrada.precio == 0
 
 def test_crear_entrada_edad_negativa_error():
+    with pytest.raises(ValueError):
+        Entrada(-2)
+
+    """
     try:
         entrada = Entrada(-2)
         assert False, "no ha saltado el ValueError"
     except ValueError:
         assert True
+    """
+    
 
 
 def test_crear_grupo_entradas():
@@ -48,3 +55,19 @@ def test_anyadir_entradas_a_grupos():
     grupo.add_entrada(2)
     assert grupo.num_entradas == 4
     assert grupo.total == 55 # (23 + 14 + 18 + 0)
+
+def test_cantidad_entradas_por_tipo():
+    grupo = Grupo_entrada()
+    grupo.add_entrada(10)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.NIÑO) == 1
+
+    grupo.add_entrada (36)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.ADULTO) == 1
+
+    grupo.add_entrada (13)
+    assert grupo.cantidad_entradas_por_tipo(TipoEntrada.ADULTO) == 2
+
+def test_subtotal_por_tipo():
+    grupo = Grupo_entrada()
+    grupo.add_entrada(10)
+    assert grupo.subtotal_tipo(TipoEntrada.NIÑO) == 14
