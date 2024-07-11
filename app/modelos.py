@@ -1,9 +1,9 @@
 from enum import Enum, auto
 class TipoEntrada(Enum):
-    BEBE = auto()
-    NIÑO = auto()
-    ADULTO = auto()
-    JUBILADO = auto()
+    BEBE = 0
+    NIÑO = 14
+    ADULTO = 23
+    JUBILADO = 18
 
 class Entrada:
     def __init__(self,edad: int):
@@ -30,17 +30,20 @@ class Grupo_entrada:
         self.total = 0
         self.num_entradas = 0
         self.tipo_entrada ={
-            TipoEntrada.BEBE:0,
-            TipoEntrada.NIÑO:0,
-            TipoEntrada.ADULTO:0,
-            TipoEntrada.JUBILADO:0
+            TipoEntrada.BEBE:{"Q":0,"P":0},
+            TipoEntrada.NIÑO:{"Q":0,"P":14},
+            TipoEntrada.ADULTO:{"Q":0,"P":23},
+            TipoEntrada.JUBILADO:{"Q":0,"P":18}
+        
         }
+        """ 
         self.precio_entrada ={
             TipoEntrada.BEBE:0,
             TipoEntrada.NIÑO:14,
             TipoEntrada.ADULTO:23,
             TipoEntrada.JUBILADO:18
-        }
+        } 
+        """
     
     def add_entrada(self,edad):
         """
@@ -56,14 +59,15 @@ class Grupo_entrada:
         self.total += entrada.precio
 
 
-        self.tipo_entrada[entrada.tipo] += 1
+        self.tipo_entrada[entrada.tipo]["Q"] += 1
 
     def cantidad_entradas_por_tipo(self,tipo):
-        return self.tipo_entrada[tipo]
+        return self.tipo_entrada[tipo]["Q"]
     
     def subtotal_tipo(self,tipo :TipoEntrada) -> int:
-        
-        return self.tipo_entrada[tipo] * self.precio_entrada[tipo]
+
+        return self.tipo_entrada[tipo]["Q"] * self.tipo_entrada[tipo]["P"]
+        #return self.tipo_entrada[tipo] * self.precio_entrada[tipo]
 
 
        
