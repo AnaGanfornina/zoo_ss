@@ -1,49 +1,40 @@
 from enum import Enum, auto
 class TipoEntrada(Enum):
-    BEBE = 0
-    NIÑO = 14
-    ADULTO = 23
-    JUBILADO = 18
+    BEBE = (0,2)
+    NIÑO = (14,12)
+    ADULTO = (23,64)
+    JUBILADO = (18,99)
 
 class Entrada:
     def __init__(self,edad: int):
+        self.__validate_edad(edad)
         
-        if edad < 0:
-            raise ValueError("La edad no puede ser negativa")
+        self.__edad = edad
+
+        for tipo in TipoEntrada:
+            if edad <= tipo.value[1]:
+                self.tipo = tipo
+                self.precio = tipo.value
+                break
+
+    def __validate_edad(self, edad):
+         if edad < 0:
+            raise ValueError("La edad no debe ser negativa")
         
-        elif edad <= 2:
-            self.tipo = TipoEntrada.BEBE
-            self.precio = 0
-        elif edad < 13:
-            self.tipo = TipoEntrada.NIÑO
-            self.precio = 14
-        elif edad < 65:
-            self.tipo = TipoEntrada.ADULTO
-            self.precio = 23
-        else: 
-            self.tipo = TipoEntrada.JUBILADO
-            self.precio = 18
+        
+        
 
 
 class Grupo_entrada:
     def __init__(self):
         self.total = 0
         self.num_entradas = 0
-        self.tipo_entrada ={
-            TipoEntrada.BEBE:{"Q":0,"P":0},
-            TipoEntrada.NIÑO:{"Q":0,"P":14},
-            TipoEntrada.ADULTO:{"Q":0,"P":23},
-            TipoEntrada.JUBILADO:{"Q":0,"P":18}
-        
-        }
-        """ 
-        self.precio_entrada ={
-            TipoEntrada.BEBE:0,
-            TipoEntrada.NIÑO:14,
-            TipoEntrada.ADULTO:23,
-            TipoEntrada.JUBILADO:18
-        } 
-        """
+        self.tipo_entrada = {}
+        for tipo in TipoEntrada:
+            self.tipo_entrada[tipo] = {"Q":0, "P":tipo.value[0] }
+    
+       #Con deepcompension 
+        #self.tipo_entrada = {tipo: {"Q":0, "P":tipo.value } for tipo in TipoEntrada}
     
     def add_entrada(self,edad):
         """
