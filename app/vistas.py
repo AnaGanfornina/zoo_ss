@@ -23,12 +23,22 @@ class Vista_Grupo:
         self.y = y
 
     def paint(self):
-        locate(self.x, self.y, "TIPO             PU     Q       TOTAL")
-        locate(self.x, self.y + 1, "=====================================")
+        locate(self.x, self.y, "TIPO                      PU      Q        TOTAL")
+        locate(self.x, self.y + 1, "===============================================")
         for indice, tipo in enumerate(TipoEntrada):
-            locate(self.x,self.y + 3 + indice,f"{tipo.name:.<14s}{tipo.value:5.2f}    {self.grupo.cantidad_entradas_por_tipo(tipo):2d}     {self.grupo.subtotal_tipo(tipo):7.2f}")
-        locate(self.x, self.y + 7,"-------------------------------------")
-        locate(self.x,self.y + 8,f"                      {self.grupo.num_entradas:3d}    {self.grupo.total:8.2f}")
+            locate(self.x,self.y + 3 + indice,f"{tipo.name:.<11s} (max: {tipo.value.edad_max:>2d})   {tipo.value.precio:5.2f}    {self.grupo.cantidad_entradas_por_tipo(tipo):2d}     {self.grupo.subtotal_tipo(tipo):7.2f}")
+        locate(self.x, self.y + 7,"-----------------------------------------------")
+        locate(self.x,self.y + 8,f"                                {self.grupo.num_entradas:3d}    {self.grupo.total:8.2f}")
+
+class Vista_Entrada:
+    def __init__(self, etiqueta: str,x,y):
+        self.etiqueta = etiqueta
+        self.x = x
+        self.y = y 
+
+    def paint(self):
+        locate(self.x, self.y, self.etiqueta)
+        value = Input()
      
 
 if __name__ == "__main__":
@@ -39,13 +49,10 @@ if __name__ == "__main__":
         grupo.add_entrada(15)
 
         vg = Vista_Grupo(grupo)
+        vista_edad = Vista_Entrada("EDAD: ",1 , 10 )
+
         vg.paint()
-
-        otrog = Grupo_entrada()
-        otrog.add_entrada(54)
-        otrog.add_entrada(43)
-
-        vg2 = Vista_Grupo(otrog, 42, 1)
-        vg2.paint()
+        vista_edad.paint()
         
-        Input()
+    
+        Input("pulsa enter para acabar")
